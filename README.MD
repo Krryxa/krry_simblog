@@ -13,28 +13,28 @@
 - MyEclipse jdk1.7
 
 ## 目录结构
->src	源代码目录，未编译
->>com.krry	包目录
->>>controller	控制层，请求转发 <br>
->>>core	核心包，包含登录拦截器、模拟的核心类和接口类<br>
->>>dao	持久层，负责与数据库进行联络的一些任务的封装<br>
->>>>impl	映射，dao接口的实现类<br>
->>>entity	实体类，每个对象作为一个实体类<br>
->>>util		工具包，包含所用到的一些工具类<br>
->>config	配置文件都放在这里<br>
->WebRoot	存放jsp、图片等资源文件，还有src编译.java后的class文件<br>
->>resource	存放静态资源文件<br>
->>>js	存放js文件<br>
->>>images	存放图片文件<br>
->>WEB-INF	在web中最安全的目录，无法直接访问，只能在xml中配置访问<br>
->>>lib	项目所需要的jar包<br>
->>>pages	web页面，jsp文件<br>
->>>>admin	个人中心页面<br>
->>>>blog	首页、博客详细页面<br>
->>>>common	公用、通用页面<br>
->>>>login	登录页面<br>
->>>web.xml	初始化配置信息<br>
->>README.MD	项目readme<br>
+src	源代码目录，未编译
+  com.krry	包目录
+    controller	控制层，请求转发
+    core	核心包，包含登录拦截器、模拟的核心类和接口类
+    dao	持久层，负责与数据库进行联络的一些任务的封装
+      impl	映射，dao接口的实现类
+    entity	实体类，每个对象作为一个实体类
+    util		工具包，包含所用到的一些工具类
+  config	配置文件都放在这里<br>
+WebRoot	存放jsp、图片等资源文件，还有src编译.java后的class文件
+  resource	存放静态资源文件
+    js	存放js文件
+     images	存放图片文件
+  WEB-INF	在web中最安全的目录，无法直接访问，只能在xml中配置访问
+    lib	项目所需要的jar包
+    pages	web页面，jsp文件
+       admin	个人中心页面
+       blog	首页、博客详细页面
+       common	公用、通用页面
+       login	登录页面
+    web.xml	初始化配置信息
+  README.MD	项目readme
 
 ## 开发流程
 - 确定项目主题，博客论坛系统
