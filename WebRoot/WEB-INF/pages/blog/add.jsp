@@ -41,8 +41,9 @@
 		    outline: none;
 		    border: 0;
 		    background: #4d8aca;
-		    color: #fff;
+		    color: #fff;transition:.3s;
 		    border-radius: 7px;}
+		.c_button:hover{transition:.3s;background:#dd5862;}
 		/*aside的样式*/
 		.aside{width:290px;height:370px;margin:40px 29px;margin-right: 15px;background: #fff;float:left;font-size:14px;font-family:"微软雅黑";}
 		.aside strong{font-family: "微软雅黑";font-size: 16px;}
