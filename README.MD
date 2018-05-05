@@ -101,8 +101,8 @@ mongoTemplate.find(query, Blog.class);
 - 本论坛也有bug，需求是不断满足的，虚心请教...
 
 ## 项目截图
-![](https://github.com/Krryxa/krry_simblog/tree/master/WebRoot/resource/images/cutImg/1.jpg)
-![](https://github.com/Krryxa/krry_simblog/tree/master/WebRoot/resource/images/cutImg/2.jpg)
+![](https://github.com/Krryxa/krry_simblog/blob/master/WebRoot/resource/images/cutImg/1.jpg)
+![](https://github.com/Krryxa/krry_simblog/blob/master/WebRoot/resource/images/cutImg/2.jpg)
 
 
 ## 相关链接
