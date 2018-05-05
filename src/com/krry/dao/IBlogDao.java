@@ -3,6 +3,7 @@ package com.krry.dao;
 import java.util.List;
 
 import com.krry.entity.Blog;
+import com.krry.entity.PageTag;
 
 /**
  * 博客接口类
@@ -49,7 +50,13 @@ public interface IBlogDao {
      * 查询所有
      * @return
      */
-    public List<Blog> findAll();
+    public List<Blog> findAll(PageTag page);
+    
+    /**
+     * 查询总数
+     * @return
+     */
+    public long count();
 
 }
 

@@ -32,8 +32,8 @@ public class Login {
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("user");
-		//如果已经登录，直接跳转到博客首页
-		if(user!=null) return "blog/index";
+		//如果已经登录，直接跳转到博客首页，这里使用重定向，到博客首页的方法，查询数据后跳转
+		if(user!=null) return "redirect:/blog/index";
 		//否则跳转到登录页面
 		return "login/login";   //默认是转发，不会显示转发路径
 	}
@@ -75,13 +75,13 @@ public class Login {
 				return "redirect:../blog/index";
 			}else{
 				//如果密码错误
-				System.out.println("密码错误");
-				return "login/error";
+				request.setAttribute("msg", "密码错误");
+				return "login/allError";
 			}
 		}else{
 			//如果不存在，代码邮箱和密码输入有误
-			System.out.println("用户不存在");
-			return "login/error";
+			request.setAttribute("msg", "用户不存在");
+			return "login/allError";
 		}
 	}
 	
@@ -141,6 +141,7 @@ public class Login {
 		
 		//若用户名已存在
 		if(user != null){ //昵称重复
+			request.setAttribute("msg", "用户名已被注册");
 			return "login/allError";
 		}
 

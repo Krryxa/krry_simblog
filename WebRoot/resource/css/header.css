@@ -1,0 +1,24 @@
+*{margin:0;padding:0;}
+/*头部*/
+html,body{cursor:url(../images/default.cur),default !important;}
+a{text-decoration:none;cursor:url(../images/link.cur),pointer !important;}
+img{vertical-align: middle;}
+.c_button{cursor:url(../images/link.cur),pointer !important;}
+.header{border-bottom: 1px solid #e9e8e8;height:60px;min-width:1200px;background:#F2F2F2;border-top: 2px solid #dd5862;}
+.heardbox{width:1200px;height:60px;margin:0 auto;}
+.c_left{float:left;width:730px;height:60px;margin-left: 30px;}
+.c_left .logo{height:60px;display:inline-block;float:left;line-height:60px;text-align:center;color:#fff;font-weight:bold;}
+.c_left .nav{float: left;margin: 0;margin-left: 12px;padding: 0;}
+.c_left .nav li{float:left;height:60px;line-height:60px;list-style:none;}
+.c_left .nav li a{position:relative;z-index:4;background: #F2F2F2;height: 60px;font-size:14px;padding:0px 14px;display:block;color:#2d2d2d;transition:all 0.3s ease}
+.c_left .nav li a:hover{color:#dd5862;transition:all 0.3s ease;}
+#logininin a:hover{color:#dd5862;transition:all 0.3s ease;}
+#loginnono a:hover{color:#dd5862;transition:all 0.3s ease;}
+.c_right{width:230px;height:60px;float:right;line-height:60px;text-align:right; margin-right: 30px;}
+.c_right .c_r_aa{color:#363636;margin-left:30px;font-size:14px;transition:0.5s;}
+.c_right .c_r_aa:hover{color:red;transition:0.5s;}
+#loginnono a{font-size:14px;color:#000;margin-left:20px;transition:all 0.3s ease;}
+#logininin{display:none;font-size:14px;}
+#logininin a{color:#000;margin-right:20px;transition:all 0.3s ease;}
+#liginuser{color:#ce5e0c !important;}
+.clear{clear:both;}

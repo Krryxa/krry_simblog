@@ -1,7 +1,9 @@
 package com.krry.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.krry.dao.IBlogDao;
+import com.krry.entity.PageTag;
 import com.krry.entity.User;
 import com.krry.entity.Blog;
 
@@ -28,18 +32,42 @@ public class Blogs {
 	 * @return
 	 */
 	@RequestMapping("/index")
-	public ModelAndView index(){
+	public ModelAndView index(PageTag page){
+		
+		page.setCurrentPage(1);
+		page.setPageSize(5); //一开始查询5条
+		
+		long count = blogDao.count(); //查询博客总数
 		
 		//查询所有博客
-		List<Blog> blogList = blogDao.findAll();
+		List<Blog> blogList = blogDao.findAll(page);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		//将查询出来的所有博客放到作用域中
 		modelAndView.addObject("blogList", blogList);
+		modelAndView.addObject("count", count);
 		
 		modelAndView.setViewName("blog/index"); //跳到此页面，首页
 		
 		return modelAndView;
+	}
+	
+	/**
+	 * 分页查询
+	 * @param page
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/loadData")
+	public HashMap<String, Object> loadData(PageTag page){
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//查询博客
+		List<Blog> blogList = blogDao.findAll(page);
+
+		map.put("blogs", blogList);
+		
+		return map;
 	}
 	
 	/**

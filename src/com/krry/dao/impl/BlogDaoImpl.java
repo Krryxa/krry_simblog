@@ -3,6 +3,7 @@ package com.krry.dao.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.krry.dao.IBlogDao;
 import com.krry.entity.Blog;
+import com.krry.entity.PageTag;
 import com.krry.entity.User;
 
 /**
@@ -64,10 +66,25 @@ public class BlogDaoImpl implements IBlogDao{
 	}
 	
 	/**
-	 * 查询所有博客
+	 * 查询所有博客 分页查询
 	 */
-	public List<Blog> findAll() {
-		return mongoTemplate.findAll(Blog.class);
+	public List<Blog> findAll(PageTag page) {
+		Query query = new Query();
+		//降序排列查询
+		query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "createTime")));
+		//需要跳过的数目 = 上一页数*每页显示的数目
+        int skip = (page.getCurrentPage()-1) * page.getPageSize();
+        query.skip(skip);// 从那条记录开始
+        //查询限制在5条
+        query.limit(page.getPageSize());// 取多少条记录
+        return mongoTemplate.find(query, Blog.class);
+	}
+	/**
+	 * 查询博客总数
+	 */
+	public long count(){
+		Query query = new Query();
+		return mongoTemplate.count(query, Blog.class);
 	}
 	
 

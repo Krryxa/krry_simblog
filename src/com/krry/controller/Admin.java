@@ -47,12 +47,15 @@ public class Admin {
 		//获取当前登录id和创建时间
 		User curuser = (User) request.getSession().getAttribute("user");
 		String id = curuser.getId();
-		String createTime = curuser.getCreateTime();
+		//原密码
+		String orpass = curuser.getPassword();
 		
 		//获取用户和密码和联系方式
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String phone = request.getParameter("phone");
+		//获取原密码
+		String orpassword = request.getParameter("orpassword");
 		
 		//如果邮箱和密码为null,那么就返回已null标识
 		if(TmStringUtils.isEmpty(username) )return "login/allError";
@@ -64,6 +67,13 @@ public class Admin {
 		
 		//若用户名已存在
 		if(user != null){ //昵称重复
+			request.setAttribute("msg", "用户名已存在");
+			return "login/allError";
+		}
+		
+		//查询原密码是否正确
+		if(!orpass.equals(orpassword)){
+			request.setAttribute("msg", "原密码不正确");
 			return "login/allError";
 		}
 		
