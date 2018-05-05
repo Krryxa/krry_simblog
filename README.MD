@@ -106,7 +106,7 @@ mongoTemplate.find(query, Blog.class);
 
 
 ## 相关链接
-- 项目开源，github地址：https://github.com/Krryxa/krry_shop
+- 项目开源，github地址：https://github.com/Krryxa/krry_simblog
 - 项目地址：https://www.ainyi.com/krry_simblog
 - 乐诗博客：https://www.ainyi.com
 
