@@ -24,10 +24,10 @@ public class Blog {
 	public Blog() {
 
 	}
-
-	public Blog(String userId, String username, String title, String content, String createTime) {
+	
+	//构造函数不需要用户名，这里是通过用户id查询出用户名再set进去
+	public Blog(String userId, String title, String content, String createTime) {
 		this.userId = userId;
-		this.username = username;
 		this.title = title;
 		this.content = content;
 		this.createTime = createTime;

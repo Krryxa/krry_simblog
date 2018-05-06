@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.krry.dao.IBlogDao;
+import com.krry.dao.IUserDao;
 import com.krry.entity.PageTag;
 import com.krry.entity.User;
 import com.krry.entity.Blog;
@@ -25,6 +26,9 @@ public class Blogs {
 
 	@Autowired
 	private IBlogDao blogDao;
+	
+	@Autowired
+	private IUserDao userDao;
 	
 	/**
 	 * 进入博客首页
@@ -38,8 +42,28 @@ public class Blogs {
 		
 		long count = blogDao.count(); //查询博客总数
 		
+		
 		//查询所有博客
 		List<Blog> blogList = blogDao.findAll(page);
+		int len = blogList.size();
+		
+		//根据查询出来的list集合中的用户ID查询用户名（MongoDB不支持关联查询）
+		//使用for循环遍历查询出来的博客
+		//对list循环遍历的三种效率 for>Iterator>forEach，for循环最快
+        for(int i=0;i<len;i++) {
+        	//依次获取list集合的元素blog
+        	Blog blog = blogList.get(i);
+        	//获取用户id
+			String userId = blog.getUserId();
+			//根据用户id查询出博客的作者信息（用户信息）
+			User user = userDao.findById(userId);
+			//获取用户名
+			String username = user.getUsername();
+			//设置进blog中
+			blog.setUsername(username);
+			//重新设置进blogList中
+			blogList.set(i, blog);
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
 		//将查询出来的所有博客放到作用域中
@@ -63,6 +87,25 @@ public class Blogs {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		//查询博客
 		List<Blog> blogList = blogDao.findAll(page);
+		int len = blogList.size();
+		
+		//根据查询出来的list集合中的用户ID查询用户名（MongoDB不支持关联查询）
+		//使用for循环遍历查询出来的博客
+		//对list循环遍历的三种效率 for>Iterator>forEach，for循环最快
+        for(int i=0;i<len;i++) {
+        	//依次获取list集合的元素blog
+        	Blog blog = blogList.get(i);
+        	//获取用户id
+			String userId = blog.getUserId();
+			//根据用户id查询出博客的作者信息（用户信息）
+			User user = userDao.findById(userId);
+			//获取用户名
+			String username = user.getUsername();
+			//设置进blog中
+			blog.setUsername(username);
+			//重新设置进blogList中
+			blogList.set(i, blog);
+		}
 
 		map.put("blogs", blogList);
 		
@@ -80,6 +123,14 @@ public class Blogs {
 		String id = request.getParameter("id");
 		//查询当前id的博客信息
 		Blog blog = blogDao.findById(id);
+		//获取用户id
+		String userId = blog.getUserId();
+		//根据用户id查询出博客的作者信息（用户信息）
+		User user = userDao.findById(userId);
+		//获取用户名
+		String username = user.getUsername();
+		//设置进blog中
+		blog.setUsername(username);
 		//放入作用域
 		request.setAttribute("blog", blog);
 		
@@ -110,14 +161,12 @@ public class Blogs {
 		User user = (User) request.getSession().getAttribute("user");
 		//获取用户Id
 		String userId = user.getId();
-		//获取用户名
-		String username = user.getUsername();
 		
 		//格式化时间类型
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String nowTime = sdf.format(new Date());
 		
-		Blog blog = new Blog(userId, username, title, content, nowTime);
+		Blog blog = new Blog(userId, title, content, nowTime);
 		
 		//保存博客
 		blogDao.saveOrUpdateBlog(blog);

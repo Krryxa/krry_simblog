@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.krry.dao.IBlogDao;
 import com.krry.entity.Blog;
 import com.krry.entity.PageTag;
-import com.krry.entity.User;
 
 /**
  * 博客实现类
@@ -42,7 +41,7 @@ public class BlogDaoImpl implements IBlogDao{
 	}
 	
 	/**
-     * 根据Id修改数据
+     * 根据Id修改数据，没有传入的字段不会删除，只修改传入的字段
      */
     public void updateBlogById(Blog blog){
     	//创建查询
@@ -77,8 +76,10 @@ public class BlogDaoImpl implements IBlogDao{
         query.skip(skip);// 从那条记录开始
         //查询限制在5条
         query.limit(page.getPageSize());// 取多少条记录
+        
         return mongoTemplate.find(query, Blog.class);
 	}
+	
 	/**
 	 * 查询博客总数
 	 */

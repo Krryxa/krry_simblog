@@ -76,7 +76,7 @@
 							<p class="desc">${list.content}</p>
 						</div>
 						<div class = "item_foot">
-							<a href ="#" style="color: #c74714;">${list.username}</a>
+							<a href ="javascript:void(0)" style="color: #c74714;">${list.username}</a>
 							发布于  ${list.createTime}
 						</div>
 					</div>
@@ -140,7 +140,7 @@
 									"<p class='desc'>"+list.content+"</p>"+
 								"</div>"+
 								"<div class = 'item_foot'>"+
-									"<a href ='#' style='color: #c74714;'>"+list.username+"</a> "+
+									"<a href ='javascript:void(0)' style='color: #c74714;'>"+list.username+"</a> "+
 									"发布于 "+list.createTime+
 								"</div>"+
 							"</div>";

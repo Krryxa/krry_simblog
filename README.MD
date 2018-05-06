@@ -42,6 +42,24 @@
     * web.xml	初始化配置信息
   * README.MD	项目readme
 
+### 实体类
+- User：		用户表
+>> id：			主键
+>> username：	用户名
+>> phone：		手机号码
+>> password：	密码
+>> createTime:	创建时间
+- Blog：		博客表
+>> id：			主键
+>> userId：		用户作者Id
+>> username：	用户作者名
+>> title：		博客标题
+>> content：		博客内容
+>> createTime：	创建时间
+- PageTag：	分页表
+>> currentPage：	当前页码
+>> pageSize：	每页显示的数量
+
 ## 开发流程
 - 1.确定项目主题，博客论坛系统
 - 2.设计页面 - 注册登录、首页、博客详细页、个人中心、发表页、修改页、错误页
@@ -135,6 +153,66 @@ public List<Blog> findAll(PageTag page) {
 Query query = new Query();
 query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "createTime")));
 mongoTemplate.find(query, Blog.class);
+```
+
+### MongoDB不进行关联查询的解决
+- 查询出来的博客字段有用户作者id，还需要查询用户名，这里还要根据用户id查询用户名
+- 如果写入博客时直接把作者用户名也写入，若用户表修改用户名后，博客表的用户名还是原本用户名
+- 但是MongoDB不进行关联查询，就要做多一次查询了
+```java
+page.setCurrentPage(1);
+page.setPageSize(5); //一开始查询5条
+
+//查询博客总数
+long count = blogDao.count(); 
+//查询所有博客
+List<Blog> blogList = blogDao.findAll(page);
+int len = blogList.size();
+
+//根据查询出来的list集合中的用户ID查询用户名（MongoDB不支持关联查询）
+//使用for循环遍历查询出来的博客
+//对list循环遍历的三种效率 for > Iterator > forEach，for循环最快
+for(int i=0;i<len;i++) {
+	//依次获取list集合的元素blog
+	Blog blog = blogList.get(i);
+	//获取用户id
+	String userId = blog.getUserId();
+	//根据用户id查询出博客的作者信息（用户信息）
+	User user = userDao.findById(userId);
+	//获取用户名
+	String username = user.getUsername();
+	//设置进blog中
+	blog.setUsername(username);
+	//重新设置进blogList中
+	blogList.set(i, blog);
+}
+ModelAndView modelAndView = new ModelAndView();
+//将查询出来的所有博客放到作用域中
+modelAndView.addObject("blogList", blogList);
+modelAndView.addObject("count", count);
+modelAndView.setViewName("blog/index"); //跳到此页面，首页
+```
+
+### MongoDB的修改数据
+- 两种方法：
+> 调用保存方法saveOrUpdateUser，不过需要注意的是：
+>> 若是修改，则必须传入当前数据id，调用saveOrUpdateUser方法，就会自动修改，而不是新增，不过需要传入全部字段，否则只保存当前传入的字段，没有设置的字段将会删除。
+>> 如果没有id，就是新增数据
+- 自己写通过id更新数据的方法
+```java
+/**
+ * 根据Id修改数据
+ */
+public void updateUserById(User user){
+	//创建查询
+	Query query = new Query(Criteria.where("id").is(user.getId()));
+	Update update = new Update();
+	if(user.getUsername() != null) update.set("username", user.getUsername());
+	if(user.getPassword() != null) update.set("password", user.getPassword());
+	if(user.getPhone() != null) update.set("phone", user.getPhone());
+	
+	mongoTemplate.updateFirst(query, update, User.class);
+}
 ```
 
 
