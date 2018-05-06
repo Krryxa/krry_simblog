@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>添加页面</title>
+    <title>添加博客</title>
     <style type="text/css">
 		body,h1,h2,h3,h4,h5,h6,dl,dt{margin:0;padding:0;}
 		ol,ul,li{margin:0;padding:0;list-style:none;}

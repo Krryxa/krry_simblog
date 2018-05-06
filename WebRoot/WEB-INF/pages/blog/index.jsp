@@ -9,7 +9,7 @@
 		<!--申明当前页面三要素-->
 		<meta name="Keywords" content="关键字,关键词">
 		<meta name="Description" content="描述和简介">
-		<title>论坛首页</title>
+		<title>乐诗论坛</title>
 		<style type="text/css">
 			body,h1,h2,h3,h4,h5,h6,dl,dt{margin:0;padding:0;}
 			ol,ul,li{margin:0;padding:0;list-style:none;}

@@ -44,20 +44,20 @@
 
 ### 实体类
 - User：		用户表
->> id：			主键
->> username：	用户名
->> phone：		手机号码
->> password：	密码
->> createTime:	创建时间
-- Blog：		博客表
->> id：			主键
->> userId：		用户作者Id
->> username：	用户作者名
->> title：		博客标题
->> content：		博客内容
->> createTime：	创建时间
-- PageTag：	分页表
->> currentPage：	当前页码
+>> id：			主键<br>
+>> username：	用户名<br>
+>> phone：		手机号码<br>
+>> password：	密码<br>
+>> createTime:	创建时间<br>
+- Blog：		博客表<br>
+>> id：			主键<br>
+>> userId：		用户作者Id<br>
+>> username：	用户作者名<br>
+>> title：		博客标题<br>
+>> content：		博客内容<br>
+>> createTime：	创建时间<br>
+- PageTag：	分页表<br>
+>> currentPage：	当前页码<br>
 >> pageSize：	每页显示的数量
 
 ## 开发流程
