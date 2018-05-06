@@ -93,12 +93,12 @@
 					<ul class="reg-box">
 						<li>  
 							<p>用户名</p>
-							<input type="text" class="user" name="username" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
+							<input type="text" class="user" name="username" maxlength="10" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
 							<span class="error error3"></span>  
 						</li>                             
 						<li>  
 							<p>密    码</p>
-							<input type="password" class="password" name="password" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
+							<input type="password" class="password" name="password" maxlength="12" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
 							<span class="error error3"></span>  
 						</li>  
 					</ul>  
@@ -114,14 +114,13 @@
 	<%@include file="../common/footer.jsp" %>
 	<script type="text/javascript">   
 	
-	//设置按钮提交后不可用
+	//避免表单重复提交
    	var form = document.getElementById("formsw");
    	form.submitted = false;
    	form.onsubmit=function(){
    		$(".c_button").val("登录中...");
-   		//如果可提交，是false，不会进入此if
+   		//已提交属性：true，所以提交后，一直返回false，从而阻止重复提交
    		if(form.submitted) return false;
-   		//设置不可提交
    		form.submitted = true;
    		return true;
    	};

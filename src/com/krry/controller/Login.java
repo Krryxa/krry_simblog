@@ -80,7 +80,7 @@ public class Login {
 			}
 		}else{
 			//如果不存在，代码邮箱和密码输入有误
-			request.setAttribute("msg", "用户不存在");
+			request.setAttribute("msg", "用户名不存在");
 			return "login/allError";
 		}
 	}
@@ -142,6 +142,14 @@ public class Login {
 		//若用户名已存在
 		if(user != null){ //昵称重复
 			request.setAttribute("msg", "用户名已被注册");
+			return "login/allError";
+		}
+		
+		//根据手机号码查询，用户是否已存在
+		user = userDao.findByPhone(phone);
+		if(user != null){
+			//用户名重复
+			request.setAttribute("msg", "手机号已被注册");
 			return "login/allError";
 		}
 

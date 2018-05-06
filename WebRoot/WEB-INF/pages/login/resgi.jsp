@@ -93,22 +93,22 @@
 					<ul class="reg-box">
 						<li>  
 							<p>用户名</p>
-							<input type="text"  class="user" name="username" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
+							<input type="text"  class="user" name="username" maxlength="10" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
 							<span class="error error3"></span>  
 						</li>
 						<li>  
 							<p>手    机</p>
-							<input type="number" class="phone"  name="phone" maxlength="11" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
+							<input type="text" class="phone"  name="phone" maxlength="11" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
 							<span class="error error1"></span>  
 						</li>                              
 						<li>  
 							<p>密    码</p>
-							<input type="password"  class="password" name="password" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
+							<input type="password"  class="password" name="password" maxlength="12" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
 							<span class="error error3"></span>  
 						</li>  
 						<li>  
 							<p>确认密码</p>
-							<input type="password"  class="email" style="color:#999;" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
+							<input type="password"  class="email" style="color:#999;" maxlength="12" onBlur="textBlur(this)" onFocus="textFocus(this)"/>
 							<span class="error error4"></span>  
 						</li>  
 					</ul>  
@@ -124,14 +124,13 @@
 	<%@include file="../common/footer.jsp" %>
 	<script type="text/javascript">   
 	
-	//设置按钮提交后不可用
+	//避免表单重复提交
    	var form = document.getElementById("formsw");
    	form.submitted = false;
    	form.onsubmit=function(){
    		$(".c_button").val("注册中...");
-   		//如果可提交，是false，不会进入此if
+   		//已提交属性：true，所以提交后，一直返回false，从而阻止重复提交
    		if(form.submitted) return false;
-   		//设置不可提交
    		form.submitted = true;
    		return true;
    	};

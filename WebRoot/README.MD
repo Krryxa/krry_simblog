@@ -25,10 +25,12 @@
     * util		工具包，包含所用到的一些工具类
   * config	配置文件都放在这里
 * WebRoot	存放jsp、图片等资源文件，还有src编译.java后的class文件
+  * META-INF	信息包，用来配置应用程序、扩展程序、类加载器和服务manifest.mf文件，在用jar打包时自动生成。
   * resource	存放静态资源文件
     * js	存放js文件
     * css	存放css文件
     * images	存放图片文件
+       * cutImg	项目截图
     * font	存放字体文件
   * WEB-INF	在web中最安全的目录，无法直接访问，只能在xml中配置访问
     * lib	项目所需要的jar包
@@ -50,22 +52,63 @@
 - 7.测试连接MongoDB，测试数据
 - 8.实体类编写（Blog.java、User.java、PageTag.java）
 - 9.注册登录、博客首页、个人中心页面的编写，公有页面编写common，确定项目地址basePath
-- 10.注册登录的验证、提交（防止请求重复提交）
+- 10.注册登录的验证、提交（阻止表单请求重复提交）
 - 11.登录注册页面逻辑代码编写，控制层（Login.java）
 - 12.dao层IUserDao接口及其实现类UserDaoImpl，使用MongoTemplate模板进行数据操作
 - 13.登录拦截器LoginInterceptor.java
 - 14.springmvc中的mvc:interceptor拦截器的编写
-- 15.控制博客首页拦截、个人中心登录后才可以进入，设置拦截器进入的类LoginInterceptor，以及对静态资源resource放行
-- 16.添加博客，插入数据逻辑代码编写，使用MongoTemplate模板进行数据操作
-- 17.博客首页、详细页逻辑代码编写，控制层（Blogs.java）
-- 18.使用EL表达式，在前台页面读取，jstl循环标签读取作用域中的数据
-- 19.基于promise的ajax异步刷新、分页查询数据并显示，使用MongoTemplate模板进行数据操作
-- 20.dao层IBlogDao接口及其实现类BlogDaoImpl，使用MongoTemplate模板进行数据操作
-- 21.修改个人信息逻辑代码编写，控制层（Admin.java）
-- 22.打一个war包，上线服务器：https://www.ainyi.com
-- 23.项目地址：https://www.ainyi.com/krry_simblog
+- 15.控制博客首页拦截、个人中心拦截，登录后才可以进入。
+- 16.设置拦截器进入的类LoginInterceptor，以及对静态资源resource放行不拦截
+- 17.添加博客，插入数据逻辑代码编写，使用MongoTemplate模板进行数据操作
+- 18.博客首页、详细页逻辑代码编写，控制层（Blogs.java）
+- 19.使用EL表达式，在前台页面读取，jstl循环标签读取作用域中的数据
+- 20.基于promise的ajax异步刷新、分页查询数据并显示，使用MongoTemplate模板进行数据操作
+- 21.dao层IBlogDao接口及其实现类BlogDaoImpl，使用MongoTemplate模板进行数据操作
+- 22.修改个人信息逻辑代码编写，控制层（Admin.java）
+- 23.打一个war包，上线服务器：https://www.ainyi.com
+- 24.项目地址：https://www.ainyi.com/krry_simblog
 
-## 谈谈java中MongoDB的分页查询
+## 操作提示
+- 需登录后方可进入首页
+- 用户名长度（0-10）
+- 手机号长度（11）
+- 密码长度（6-12）
+- 注册（填写用户名、手机号、密码、确认密码）
+- 登录（填写用户名、密码）
+- 查看（显示标题、作者、发表时间、详细内容）
+- 发表（填写标题、内容）
+- 修改信息（填写用户名(可不修改)、手机号(可不修改)、原密码、新密码、确认新密码）
+- 注册时，后台验证用户名和手机号是否已被注册，从而返回提示
+- 登录时，后台验证用户名是否存在，密码是否正确，从而返回提示
+- 修改时，除了自己原本的用户名和手机号之外，后台验证用户名和手机号是否已被注册，从而返回提示
+
+
+## 技术难点要点
+
+### 手机号码的表单输入
+- 控制只能输入数字并且能限制长度11，number类型的表单不支持maxlength
+```html
+<input type="text" maxlength="11" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"/>
+```
+
+### 避免表单重复提交
+- form表单设置
+```javascript
+var form = document.getElementById("formsw");
+//设置初始值，已提交属性：false
+form.submitted = false;
+form.onsubmit = function(){
+	$(".c_button").val("修改中...");
+	//已提交属性：true，所以提交后，一直返回false，从而阻止重复提交
+	if(form.submitted){
+		return false;
+	}
+	form.submitted = true;
+	return true;
+};
+```
+
+### 谈谈java中MongoDB的分页查询
 - 两个关键方法skip(num)和limit(num)方法
 - skip：控制跳过多少条数据
 - limit：控制查询多少条数据
@@ -86,7 +129,7 @@ public List<Blog> findAll(PageTag page) {
 }
 ```
 
-## MongoDB的数据查询
+### MongoDB的数据查询
 - MongoDB默认是把最新数据插入到最后面，所以全部查询的时候，需要把最新数据放在前面，这就需要查询条件是按照创建时间的降序排列查询
 ```java
 Query query = new Query();

@@ -1,8 +1,5 @@
 package com.krry.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +41,7 @@ public class Admin {
 	@RequestMapping(method=RequestMethod.POST,value="/modify")
 	public String confirm(HttpServletRequest request){
 		
-		//获取当前登录id和创建时间
+		//获取当前登录id
 		User curuser = (User) request.getSession().getAttribute("user");
 		String id = curuser.getId();
 		//原密码
@@ -65,9 +62,18 @@ public class Admin {
 		//根据昵称查询，用户是否存在
 		User user = userDao.findByUsername(username);
 		
-		//若用户名已存在
-		if(user != null){ //昵称重复
+		//若用户名已存在 并且不是自己原本的用户名
+		if(user != null && !username.equals(curuser.getUsername())){
+			//用户名重复
 			request.setAttribute("msg", "用户名已存在");
+			return "login/allError";
+		}
+		
+		//根据手机号码查询，用户是否已存在
+		user = userDao.findByPhone(phone);
+		if(user != null && !phone.equals(curuser.getPhone())){
+			//用户名重复
+			request.setAttribute("msg", "手机号已被注册");
 			return "login/allError";
 		}
 		

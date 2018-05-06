@@ -75,6 +75,13 @@ public class UserDaoImpl implements IUserDao {
 		
 		return mongoTemplate.findOne(sql,User.class);
 	}
+	
+	public User findByPhone(String phone) {
+		//根据phone查询
+		Query sql = new Query(Criteria.where("phone").is(phone));
+		
+		return mongoTemplate.findOne(sql,User.class);
+	}
 }
 
 

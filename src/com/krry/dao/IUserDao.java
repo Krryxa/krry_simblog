@@ -50,7 +50,14 @@ public interface IUserDao {
      * @return
      */
     public User findByUsername(String username);
-
+    
+    /**
+     * 根据手机号码查询
+     * @param phone
+     * @return
+     */
+    public User findByPhone(String phone);
+    
 
     /**
      * 查询所有
